@@ -40,7 +40,7 @@ jobs:
         id: get-url
         run: |
           URL=$(gcloud app browse -s github-actions --project=${{ secrets.GCP_PROJECT_ID }} --no-launch-browser)
-          echo "url=$URL" >> $GITHUB_ENV
+          echo "url=${URL}" >> $GITHUB_ENV
 
       - name: Post deployment comment
         uses: marocchino/sticky-pull-request-comment@v2
@@ -49,8 +49,8 @@ jobs:
           header: |
             ## Deployment Status
           message: |
-            Deployment for [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) succeeded.
-            Access the deployed application [here](${ url })
+            Deployment for [${{ github.event.pull_request.head.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.event.pull_request.head.sha }}) succeeded.
+            Access the deployed application [here](${{ env.url }})
 
   destroy:
     if: github.event.action == 'closed'
