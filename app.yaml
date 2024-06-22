@@ -1,0 +1,7 @@
+runtime: python312
+service: github-actions
+
+handlers:
+  - url: /.*
+    static_files: index.html
+    upload: index.html
